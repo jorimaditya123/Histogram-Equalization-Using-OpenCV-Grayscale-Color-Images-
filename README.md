@@ -70,15 +70,115 @@ Display original color image, histogram, enhanced image, and enhanced histogram 
 ## Program
 
 ### Developed By:
-**Name:** ____________________________  
+**Name:** Aditya Jorim F S 
 
 ### Register No:
-____________________________  
+212225240004
 
 ---
+```python
+
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Step 1: Read the image in grayscale
+gray = cv2.imread('parrot(1).jpg', cv2.IMREAD_GRAYSCALE)
+
+if gray is None:
+    print("Error: Image not found. Check the file path.")
+else:
+    # Step 2: Display grayscale image and histogram
+    plt.figure(figsize=(10, 8))
+
+    plt.subplot(2, 2, 1)
+    plt.imshow(gray, cmap='gray')
+    plt.title('Original Grayscale Image')
+    plt.axis('off')
+
+    plt.subplot(2, 2, 2)
+    plt.hist(gray.ravel(), 256, [0, 256])
+    plt.title('Original Histogram')
+
+    # Step 3: Apply histogram equalization
+    equalized = cv2.equalizeHist(gray)
+
+    plt.subplot(2, 2, 3)
+    plt.imshow(equalized, cmap='gray')
+    plt.title('Equalized Image')
+    plt.axis('off')
+
+    plt.subplot(2, 2, 4)
+    plt.hist(equalized.ravel(), 256, [0, 256])
+    plt.title('Equalized Histogram')
+
+    plt.tight_layout()
+    plt.show()
+
+    # Step 4: Read the image in color
+    img = cv2.imread('low_qua_img.jpg', cv2.IMREAD_COLOR)
+
+    if img is not None:
+        # Step 5: Split B, G, R channels
+        b, g, r = cv2.split(img)
+
+        plt.figure(figsize=(12, 4))
+
+        plt.subplot(1, 3, 1)
+        plt.hist(b.ravel(), 256, [0, 256])
+        plt.title('Blue Histogram')
+
+        plt.subplot(1, 3, 2)
+        plt.hist(g.ravel(), 256, [0, 256])
+        plt.title('Green Histogram')
+
+        plt.subplot(1, 3, 3)
+        plt.hist(r.ravel(), 256, [0, 256])
+        plt.title('Red Histogram')
+
+        plt.tight_layout()
+        plt.show()
+
+        # Step 6: Convert BGR to HSV
+        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+        # Step 7: Split HSV channels
+        h, s, v = cv2.split(hsv)
+
+        # Step 8: Equalize the V channel
+        v_eq = cv2.equalizeHist(v)
+
+        # Step 9: Merge channels and convert back to BGR
+        hsv_eq = cv2.merge([h, s, v_eq])
+        enhanced = cv2.cvtColor(hsv_eq, cv2.COLOR_HSV2BGR)
+
+        # Step 10: Display original and enhanced color images
+        plt.figure(figsize=(10, 8))
+
+        plt.subplot(2, 2, 1)
+        plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        plt.title('Original Color Image')
+        plt.axis('off')
+
+        plt.subplot(2, 2, 2)
+        plt.hist(img.ravel(), 256, [0, 256])
+        plt.title('Original Color Histogram')
+
+        plt.subplot(2, 2, 3)
+        plt.imshow(cv2.cvtColor(enhanced, cv2.COLOR_BGR2RGB))
+        plt.title('Enhanced Color Image')
+        plt.axis('off')
+
+        plt.subplot(2, 2, 4)
+        plt.hist(enhanced.ravel(), 256, [0, 256])
+        plt.title('Enhanced Color Histogram')
+
+        plt.tight_layout()
+        plt.show()
+
+```
 
 ##  Output
-
 ### Grayscale Histogram Equalization
 
 - Original grayscale image is displayed  
@@ -94,6 +194,8 @@ ____________________________
 - Histogram of enhanced image shows better intensity distribution  
 
 ---
+<img width="1501" height="1183" alt="image" src="https://github.com/user-attachments/assets/d1c7581f-6f95-4d97-88aa-17e9f4fbc175" />
+
 
 ## Result
 
